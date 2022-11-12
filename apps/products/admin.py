@@ -10,4 +10,4 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
     search_fields = ('name', 'sku', 'brand')
     fields = ('name', 'sku', 'brand', 'price', 'active', 'created_at', 'updated_at')
-    ordering = ('created_at',)
+    ordering = ('-created_at',)
