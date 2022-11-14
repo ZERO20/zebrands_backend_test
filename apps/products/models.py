@@ -37,3 +37,13 @@ class Product(Common):
 
     def __str__(self):
         return self.name
+
+
+class TrackProduct(Common):
+    product = models.ForeignKey(Product, related_name="tracks", on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [models.Index(fields=['created_at', ]), ]
+
+    def __str__(self):
+        return self.product.name
