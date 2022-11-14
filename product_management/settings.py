@@ -39,7 +39,8 @@ BASE_APPS = [
 ]
 
 PROJECT_APPS = [
-    'apps.products'
+    'apps.products',
+    'apps.users'
 ]
 
 THIRD_APPS = [
