@@ -27,7 +27,7 @@ class Product(Common):
     """Model for products"""
     name = models.CharField(verbose_name="Name", max_length=200)
     sku = models.CharField(verbose_name="SKU", max_length=50, unique=True)
-    brand = models.ForeignKey(Brand, verbose_name="Brand", on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, verbose_name="Brand", on_delete=models.CASCADE, related_name='products')
     price = models.DecimalField(verbose_name="Price", max_digits=10, decimal_places=2)
 
     class Meta:
