@@ -53,6 +53,7 @@ class ProductViewSet(ModelViewSet):
     def retrieve(self, request, pk):
         product = self.get_object()
         serializer = self.get_serializer(product)
+        product.tracking_detail()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):

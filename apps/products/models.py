@@ -38,6 +38,9 @@ class Product(Common):
     def __str__(self):
         return self.name
 
+    def tracking_detail(self):
+        """Create a ProductTrack for the instance"""
+        TrackProduct.objects.create(product_id=self.id)
 
 class TrackProduct(Common):
     product = models.ForeignKey(Product, related_name="tracks", on_delete=models.CASCADE)
