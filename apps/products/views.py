@@ -1,4 +1,5 @@
-
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -29,6 +30,11 @@ class BrandViewSet(ModelViewSet):
             queryset = queryset.filter(name__icontains=name)
         return queryset
 
+    @swagger_auto_schema(manual_parameters=[
+        openapi.Parameter('name', openapi.IN_QUERY, description="name", type=openapi.TYPE_STRING)
+    ])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 class ProductViewSet(ModelViewSet):
     """Product CRUD ModelViewSet"""
@@ -36,7 +42,10 @@ class ProductViewSet(ModelViewSet):
     permission_classes_by_action = {
         'create': [IsAuthenticated],
         'list': [AllowAny],
-        'retrieve': [AllowAny]
+        'retrieve': [AllowAny],
+        'destroy': [IsAuthenticated],
+        'update': [IsAuthenticated],
+        'partial_update': [IsAuthenticated],
     }
 
     def get_queryset(self):
@@ -46,6 +55,9 @@ class ProductViewSet(ModelViewSet):
             queryset = queryset.filter(name__icontains=name)
         return queryset
 
+    @swagger_auto_schema(manual_parameters=[
+        openapi.Parameter('name', openapi.IN_QUERY, description="name", type=openapi.TYPE_STRING)
+    ])
     def list(self, request):
         serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
