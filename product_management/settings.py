@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -162,3 +163,9 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+# AWS
+SES_AWS_REGION = os.getenv('SES_AWS_REGION', '')
+SES_AWS_ACCESS_KEY = os.getenv('SES_AWS_ACCESS_KEY', '')
+SES_AWS_SECRET_KEY = os.getenv('SES_AWS_SECRET_KEY', '')
+SES_AWS_SOURCE = os.getenv('SES_AWS_SOURCE', '')
