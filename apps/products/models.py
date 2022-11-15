@@ -70,6 +70,7 @@ class Product(Common):
         """
         admin_emails = list(User.objects.filter(is_superuser=True).values_list('email', flat=True))
         subject = 'Product updated!'
+        changes = '<br>'.join(['<b>{}</b>: {}'.format(k,v) for k,v in changes.items()])
         html_content = f"""
             <html>
                 <head></head>
