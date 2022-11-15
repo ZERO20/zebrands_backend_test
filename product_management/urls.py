@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.response import Response
@@ -42,6 +43,7 @@ schema_view = get_schema_view(
 class HealthCheckAPIView(APIView):
     """Health Check for the API"""
 
+    @swagger_auto_schema(tags=['Health Check'])
     def get(self, request):
         return Response(data={"status": "Hello world!"}, status=status.HTTP_200_OK)
 
@@ -49,7 +51,7 @@ class HealthCheckAPIView(APIView):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HealthCheckAPIView.as_view(), name='health-check'),
-    path('api/v1/', include((api_v1, 'product_management'), namespace='api_v1')),
+    path('', include((api_v1, 'product_management'), namespace='api_v1')),
     re_path(
         r'^docs/$', schema_view.with_ui('swagger',cache_timeout=0),
         name='schema-swagger-ui'
