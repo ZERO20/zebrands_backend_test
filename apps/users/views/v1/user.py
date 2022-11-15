@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from django.contrib.auth.models import User
 
-from .serializers import UserSerializer
+from apps.users.serializers.v1.user import UserSerializer
 
 
 class AdminUserViewSet(ModelViewSet):

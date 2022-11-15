@@ -17,31 +17,39 @@ Including another URLconf
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from django.contrib import admin
 from django.urls import include, path, re_path
 
+import product_management.api_v1 as api_v1
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Product Management",
-      default_version='v1',
-      description="Product Management",
-      contact=openapi.Contact(email="edgargdcv@gmail.com"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Product Management",
+        default_version='v1',
+        description="Product Management",
+        contact=openapi.Contact(email="edgargdcv@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
+
+
+class HealthCheckAPIView(APIView):
+    """Health Check for the API"""
+
+    def get(self, request):
+        return Response(data={"status": "Hello world!"}, status=status.HTTP_200_OK)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.products.urls')),
-    path('', include('apps.users.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('', HealthCheckAPIView.as_view(), name='health-check'),
+    path('api/v1/', include((api_v1, 'product_management'), namespace='api_v1')),
     re_path(
         r'^docs/$', schema_view.with_ui('swagger',cache_timeout=0),
         name='schema-swagger-ui'

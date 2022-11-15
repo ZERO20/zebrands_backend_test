@@ -1,40 +1,14 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 
-from .models import Brand, Product
-from .serializers import BrandSerializer, ProductSerializer
+from apps.products.models import Product
+from apps.products.serializers.v1.product import ProductSerializer
 
-class HealthCheckAPIView(APIView):
-    """Health Check for the API"""
-
-    def get(self, request):
-        return Response(data={"status": "Hello world!"}, status=status.HTTP_200_OK)
-
-
-class BrandViewSet(ModelViewSet):
-    """Brand CRUD ModelViewSet"""
-    serializer_class = BrandSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        queryset = Brand.objects.filter(active=True)
-        name = self.request.query_params.get('name')
-        if name:
-            queryset = queryset.filter(name__icontains=name)
-        return queryset
-
-    @swagger_auto_schema(manual_parameters=[
-        openapi.Parameter('name', openapi.IN_QUERY, description="name", type=openapi.TYPE_STRING)
-    ])
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
 
 class ProductViewSet(ModelViewSet):
     """Product CRUD ModelViewSet"""

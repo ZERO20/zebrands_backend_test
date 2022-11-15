@@ -1,12 +1,7 @@
 from rest_framework import serializers
 
-from .models import Brand, Product
-
-
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = ('id', 'name',)
+from apps.products.models import Brand, Product
+from apps.products.serializers.v1.brand import BrandSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -19,4 +14,3 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'brand', 'brand_id', 'sku', 'price', 'created_at',]
-
